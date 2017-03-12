@@ -12,7 +12,7 @@ setup(
         'bin/scrimenv.ps1'
     ],
     entry_points={
-        'console_scripts': ['scrimenv = pyscrimenv:cli']
+        'console_scripts': ['pyscrimenv = scrimenv:cli']
     },
     py_modules=['scrimenv'],
     install_requires=[

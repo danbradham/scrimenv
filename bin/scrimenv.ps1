@@ -4,7 +4,7 @@ $env:SCRIM_AUTO_WRITE="1"
 $env:SCRIM_SCRIPT = $MyInvocation.MyCommand.Definition
 
 # Call the real python cli
-scrimenv $args
+pyscrimenv.exe $args
 
 if (Test-Path $env:SCRIM_PATH) {
     Try{

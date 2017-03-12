@@ -6,7 +6,7 @@ set SCRIM_AUTO_WRITE=1
 set SCRIM_SCRIPT=%0
 
 rem Call real python cli
-scrimenv %*
+pyscrimenv.exe %*
 
 if exist %SCRIM_PATH% (goto :try) else (goto :finally)
 
