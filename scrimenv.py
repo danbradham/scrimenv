@@ -5,6 +5,10 @@ from scrim import get_scrim
 scrim = get_scrim()
 
 
+def is_same_file(a, b):
+    return os.stat(a) == os.stat(b)
+
+
 def get_activate_script(path, shell):
     '''Get virtualenv activate script from path'''
 
@@ -25,6 +29,8 @@ def get_activate_script(path, shell):
 @click.group()
 def cli():
     '''Virtualenv Wrapper written in python using scrim'''
+    if scrim.shell is None:
+        raise UsageError('CLI invoked through python, not Scrim Script...')
 
 
 @cli.command()
@@ -63,19 +69,23 @@ def deactivate(path):
 def run_in(path, command):
     '''Run a command in a virtualenv'''
 
-    virtual_env = os.environ.get('VIRTUAL_ENV', None)
-    if virtualenv:
-        old_activate_script = get_activate_script(virtual_env, scrim.shell)
     activate_script = get_activate_script(path, scrim.shell)
-    if scrim.shell == 'cmd.exe':
-        scrim.append('call ' + activate_script)
-    else:
-        scrim.append(activate_script)
-    scrim.append(command)
-    scrim.append('deactivate')
+    active_env = os.environ.get('VIRTUAL_ENV', None)
+    if active_env:
+        old_activate_script = get_activate_script(active_env, scrim.shell)
+        do_reactivate = not is_same_file(old_activate_script, activate_script)
 
-    if not os.stat(old_activate_script) == os.stat(activate_script):
-        scrim.append(old_activate_script)
+    if scrim.shell == 'cmd.exe':
+        call = 'call {}'
+
+    elif scrim.shell == 'powershell.exe':
+        call = 'Invoke-Expression "{}"'
+
+    scrim.append(call.format(activate_script))
+    scrim.append(command)
+    scrim.append(call.format('deactivate'))
+    if active_env and do_reactivate:
+        scrim.append(call.format(old_activate_script))
 
 
 if __name__ == '__main__':
