@@ -50,15 +50,31 @@ def activate(path):
 
 
 @cli.command()
+def deactivate(path):
+    '''Deactivate virtualenv'''
+
+    click.echo('Deactivating')
+    scrim.append('deactivate')
+
+
+@cli.command()
 @click.argument('path')
 @click.argument('command')
 def run_in(path, command):
     '''Run a command in a virtualenv'''
 
+    if 'VIRTUAL_ENV' in os.environ:
+        old_activate_script = get_activate_script(os.environ['VIRTUAL_ENV'])
     activate_script = get_activate_script(path, scrim.shell)
-    scrim.append(activate_script)
+    if scrim.shell == 'cmd.exe':
+        scrim.append('call ' + activate_script)
+    else:
+        scrim.append(activate_script)
     scrim.append(command)
     scrim.append('deactivate')
+
+    if not os.path.samefile(old_activate_script, activate_script):
+        scrim.append(old_activate_script)
 
 
 if __name__ == '__main__':
