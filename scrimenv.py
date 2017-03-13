@@ -5,7 +5,7 @@ from scrim import get_scrim
 scrim = get_scrim()
 
 
-def get_activate_script(path, shell=None):
+def get_activate_script(path, shell):
     '''Get virtualenv activate script from path'''
 
     activate_script = {
@@ -63,8 +63,9 @@ def deactivate(path):
 def run_in(path, command):
     '''Run a command in a virtualenv'''
 
-    if 'VIRTUAL_ENV' in os.environ:
-        old_activate_script = get_activate_script(os.environ['VIRTUAL_ENV'])
+    virtual_env = os.environ.get('VIRTUAL_ENV', None)
+    if virtualenv:
+        old_activate_script = get_activate_script(virtual_env, scrim.shell)
     activate_script = get_activate_script(path, scrim.shell)
     if scrim.shell == 'cmd.exe':
         scrim.append('call ' + activate_script)
