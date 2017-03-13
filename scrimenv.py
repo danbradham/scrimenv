@@ -74,7 +74,7 @@ def run_in(path, command):
     scrim.append(command)
     scrim.append('deactivate')
 
-    if not os.path.samefile(old_activate_script, activate_script):
+    if not os.stat(old_activate_script) == os.stat(activate_script):
         scrim.append(old_activate_script)
 
 
