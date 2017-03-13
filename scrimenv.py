@@ -30,7 +30,7 @@ def get_activate_script(path, shell):
 def cli():
     '''Virtualenv Wrapper written in python using scrim'''
     if scrim.shell is None:
-        raise UsageError('CLI invoked through python, not Scrim Script...')
+        raise click.UsageError('CLI not invoked through Scrim Script...')
 
 
 @cli.command()
