@@ -4,6 +4,7 @@ Virtualenv wrapper written with **click** and **scrim**
 
 Demonstrates how scrim can help you build python cli tools that modify your shells environment.
 
+
 Check it out
 ============
 ::
