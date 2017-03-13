@@ -7,6 +7,7 @@ Demonstrates how scrim can help you build python cli tools that modify your shel
 This should work...
 ===================
 ::
+
     > pip install git+ssh://git@github.com/danbradham/scrimenv.git
     ...
     > scrimenv create testenv
