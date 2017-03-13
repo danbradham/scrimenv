@@ -77,7 +77,6 @@ def run_in(path, command):
 
     if scrim.shell == 'cmd.exe':
         call = 'call {}'
-        scrim.append('@echo on')
 
     elif scrim.shell == 'powershell.exe':
         call = 'Invoke-Expression "{}"'
